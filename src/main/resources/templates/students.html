@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Students</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Registered Students</h1>
+
+    <a th:href="@{/student/register}">Register New Student</a>
+
+    <div class="error" th:if="${notFound}" th:text="${notFound}"></div>
+
+    <div th:if="${selectedStudent != null}" class="student-details">
+        <h2>Student Details</h2>
+        <p><strong>ID:</strong> <span th:text="${selectedStudent.id}"></span></p>
+        <p><strong>Full Name:</strong>
+            <span th:text="${selectedStudent.firstName + ' ' + selectedStudent.lastName}"></span>
+        </p>
+        <p><strong>Email:</strong> <span th:text="${selectedStudent.email}"></span></p>
+        <p><strong>Age:</strong> <span th:text="${selectedStudent.age}"></span></p>
+        <a th:href="@{/student/all}">Back to all students</a>
+    </div>
+
+    <div th:if="${selectedStudent == null and notFound == null}">
+
+        <div th:if="${#lists.isEmpty(students)}">
+            <p>No students have been registered yet.</p>
+        </div>
+
+        <div th:unless="${#lists.isEmpty(students)}">
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Details</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="student : ${students}">
+                    <td th:text="${student.id}"></td>
+                    <td th:text="${student.firstName}"></td>
+                    <td th:text="${student.lastName}"></td>
+                    <td th:text="${student.email}"></td>
+                    <td th:text="${student.age}"></td>
+                    <td>
+                        <a th:href="@{/student/{id}(id=${student.id})}">
+                            View
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
